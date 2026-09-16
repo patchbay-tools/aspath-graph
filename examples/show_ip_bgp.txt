@@ -1,0 +1,13 @@
+BGP table version is 918273645, local router ID is 203.0.113.1
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale, m multipath, b backup-path, f RT-Filter
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight Path
+*  192.0.2.0/24     198.51.100.9             0             0 174 2914 64500 i
+*                   198.51.100.17         1200             0 3356 1299 1299 64500 i
+*>                  198.51.100.1            10    200      0 6939 64500 i
+*  198.51.100.0/22  198.51.100.17         1200             0 3356 {64510,64511} 64501 i
+*>                  198.51.100.1            10    200      0 6939 64501 64501 ?
+
+Total number of prefixes 2
