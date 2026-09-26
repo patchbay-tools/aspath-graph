@@ -104,7 +104,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Render AS paths as Graphviz DOT.")
     parser.add_argument("input", nargs="?", default="-", help="paths file (default: stdin)")
     parser.add_argument("--highlight", action="append", default=[], metavar="ASN",
-                        help="colour this AS (repeatable)")
+                        help="colour this AS (repeatable, or comma separated)")
     parser.add_argument("--keep-prepends", action="store_true",
                         help="keep repeated ASNs instead of collapsing prepends")
     parser.add_argument("--rankdir", default="LR", choices=["LR", "TB", "RL", "BT"])
@@ -120,7 +120,15 @@ def main() -> int:
         print("no AS paths found in input", file=sys.stderr)
         return 1
 
-    highlight = {int(a.upper().removeprefix("AS")) for a in args.highlight}
+    try:
+        highlight = {
+            int(a.strip().upper().removeprefix("AS"))
+            for item in args.highlight
+            for a in item.split(",")
+            if a.strip()
+        }
+    except ValueError:
+        parser.error("--highlight takes AS numbers, e.g. 64500 or AS64500")
     sys.stdout.write(to_dot(paths, highlight, args.rankdir))
     return 0
 
