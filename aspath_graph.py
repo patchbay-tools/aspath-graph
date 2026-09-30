@@ -24,6 +24,9 @@ def clean_path(tokens: list[str], keep_prepends: bool = False) -> list[int]:
     for token in tokens:
         if token in ORIGIN_CODES:
             break
+        # some looking glasses print AS3356 rather than 3356
+        if token[:2].upper() == "AS":
+            token = token[2:]
         if not token.isdigit():
             continue
         asn = int(token)

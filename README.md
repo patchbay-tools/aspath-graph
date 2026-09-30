@@ -21,8 +21,8 @@ ssh lg.example.net 'show ip bgp 192.0.2.0/24' | ./aspath_graph.py --rankdir TB |
 
 Input formats:
 
-- **plain**: one path per line, ASNs separated by spaces; an origin code (`i`, `e`, `?`) at the
-  end is fine
+- **plain**: one path per line, ASNs separated by spaces, with or without an `AS` prefix; an
+  origin code (`i`, `e`, `?`) at the end is fine
 - **`show ip bgp`**: detected from the `Network ... Path` header; the path is read from that column
   so the metric / local-pref / weight numbers are not mistaken for ASNs
 

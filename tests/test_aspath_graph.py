@@ -21,6 +21,10 @@ class ParseTest(unittest.TestCase):
         paths = parse_paths(example("paths.txt"), keep_prepends=True)
         self.assertEqual(paths[1], [3356, 1299, 1299, 1299, 64500])
 
+    def test_as_prefixed_tokens(self):
+        paths = parse_paths(["AS3356 as1299 AS64500 i\n", "ASX 174 64500\n"])
+        self.assertEqual(paths, [[3356, 1299, 64500], [174, 64500]])
+
     def test_show_ip_bgp_ignores_metric_columns(self):
         paths = parse_paths(example("show_ip_bgp.txt"))
         self.assertEqual(paths, [
