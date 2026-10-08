@@ -97,7 +97,8 @@ def to_dot(paths: list[list[int]], highlight: set[int], rankdir: str = "LR") -> 
 
     for (left, right), count in sorted(edges.items()):
         width = 1 + 3 * count / heaviest
-        out.append(f'  AS{left} -> AS{right} [penwidth={width:.2f}, tooltip="{count} paths"];')
+        label = "1 path" if count == 1 else f"{count} paths"
+        out.append(f'  AS{left} -> AS{right} [penwidth={width:.2f}, tooltip="{label}"];')
 
     out.append("}")
     return "\n".join(out) + "\n"
@@ -111,6 +112,7 @@ def main() -> int:
     parser.add_argument("--keep-prepends", action="store_true",
                         help="keep repeated ASNs instead of collapsing prepends")
     parser.add_argument("--rankdir", default="LR", choices=["LR", "TB", "RL", "BT"])
+    parser.add_argument("-o", "--output", metavar="FILE", help="write DOT to FILE instead of stdout")
     args = parser.parse_args()
 
     if args.input == "-":
@@ -132,7 +134,12 @@ def main() -> int:
         }
     except ValueError:
         parser.error("--highlight takes AS numbers, e.g. 64500 or AS64500")
-    sys.stdout.write(to_dot(paths, highlight, args.rankdir))
+    dot = to_dot(paths, highlight, args.rankdir)
+    if args.output:
+        with open(args.output, "w", encoding="utf-8") as fh:
+            fh.write(dot)
+    else:
+        sys.stdout.write(dot)
     return 0
 
 

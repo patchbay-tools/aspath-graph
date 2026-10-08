@@ -11,6 +11,7 @@ Python 3.10+, standard library only. You need Graphviz (`dot`) to render the out
 ```
 ./aspath_graph.py examples/paths.txt | dot -Tsvg > paths.svg
 ./aspath_graph.py examples/show_ip_bgp.txt --highlight 6939 | dot -Tpng > lg.png
+./aspath_graph.py examples/paths.txt -o paths.dot
 ```
 
 From a looking glass over ssh:
